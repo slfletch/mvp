@@ -29,7 +29,7 @@ spec:
       value: $(params.repo-url)
     - name: revision
       value: $(params.branch-name)
-  - name: cat-readme
+  - name: create-rbac
     runAfter: ["fetch-repo"]  # Wait until the clone is done before reading the readme.
     workspaces:
     - name: source
@@ -40,7 +40,10 @@ spec:
       steps:
       - image: lachlanevenson/k8s-kubectl
         script: |
-          cat $(workspaces.source.path)/README.md
+          kubectl apply -f $(workspaces.source.path)/service_accounts/svc-account.yaml
+          kubectl apply -f $(workspaces.source.path)/roles/mvp-role.yaml
+          kubectl apply -f $(workspaces.source.path)/rolebindings/mvp-rolebindings.yaml
+          kubectl apply -f $(workspaces.source.path)/clusterrolebindings/mvp-clusterrolebinding.yaml
 ---
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
@@ -61,6 +64,6 @@ spec:
         storageClassName: nfs-provisioner
   params:
   - name: repo-url
-    value: https://github.com/tektoncd/pipeline.git
+    value: https://github.com/slfletch/mvp.git
   - name: branch-name
-    value: release-v0.12.x
+    value: master
