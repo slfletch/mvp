@@ -20,7 +20,22 @@ spec:
       - name: args
         value:
           - "get pods -n mvp"
-          - "get namespaces"
+    workspaces:
+      - name: kubeconfig-dir
+        workspace: kubeconfig-dir
+      - name: manifest-dir
+        workspace: manifest-dir
+    taskRef:
+      name: kubernetes-actions
+  - name: get-namespaces
+    params: 
+      - name: script
+        value: "kubectl $@"
+      - name: image
+        value: lachlanevenson/k8s-kubectl
+      - name: args
+        value:
+          - "get namespaces -n mvp"
     workspaces:
       - name: kubeconfig-dir
         workspace: kubeconfig-dir

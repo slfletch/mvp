@@ -3,6 +3,7 @@ kind: PipelineRun
 metadata:
   name: kubernetes-actions
 spec:
+  serviceAccountName: mvp-svc
   pipelineRef:
     name: kubernetes-actions-pipeline
   workspaces:
