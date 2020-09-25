@@ -53,7 +53,7 @@ metadata:
   name: pr-status
 spec:
   pipelineRef:
-    name: p-status
+    name: p-pod-status
   workspaces:
   - name: shared-data
     volumeClaimTemplate:
