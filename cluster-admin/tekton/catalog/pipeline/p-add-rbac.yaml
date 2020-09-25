@@ -41,5 +41,5 @@ spec:
       steps:
       - image: lachlanevenson/k8s-kubectl
         script: |
-          cat $(workspaces.source.path)/cluster-admin/rdmSite/*/rbac/*.yaml | kubectl apply -f -
+          cat $(workspaces.source.path)/rdmSite/*/rbac/*.yaml | kubectl apply -f -
 ...

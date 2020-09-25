@@ -5,7 +5,7 @@ metadata:
   name: pr-setup
 spec:
   pipelineRef:
-    name: p-create-tasks
+    name: p-add-rbac
   workspaces:
   - name: shared-data
     volumeClaimTemplate:

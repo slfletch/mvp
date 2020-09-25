@@ -30,7 +30,7 @@ spec:
       value: $(params.repo-url)
     - name: revision
       value: $(params.branch-name)
-  - name: create-rbac
+  - name: create-tasks
     runAfter: ["fetch-repo"]  # Wait until the clone is done before reading the readme.
     workspaces:
     - name: source
