@@ -1,0 +1,76 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  annotations:
+    pipelines.kubeflow.org/pipeline_spec: '{"description": "Using kubectl-actions",
+      "name": "Apply RBAC using kubectl commands"}'
+  name: kubernetes-actions-pipeline
+spec:
+  workspaces:
+    - name: kubeconfig-dir
+    - name: manifest-dir
+  tasks:
+  - name: access-check-cnf-a
+    params: 
+      - name: script
+        value: "kubectl $@"
+      - name: image
+        value: lachlanevenson/k8s-kubectl
+      - name: args
+        value:
+          - "kubectl auth can-i create secrets --namespace cnf-a --as cnf-a-svc"
+    workspaces:
+      - name: kubeconfig-dir
+        workspace: kubeconfig-dir
+      - name: manifest-dir
+        workspace: manifest-dir
+    taskRef:
+      name: kubernetes-actions
+  - name: access-check-cnf-b
+    params: 
+      - name: script
+        value: "kubectl $@"
+      - name: image
+        value: lachlanevenson/k8s-kubectl
+      - name: args
+        value:
+          - "kubectl auth can-i create secrets --namespace cnf-b --as cnf-b-svc"
+    workspaces:
+      - name: kubeconfig-dir
+        workspace: kubeconfig-dir
+      - name: manifest-dir
+        workspace: manifest-dir
+    taskRef:
+      name: kubernetes-actions
+  - name: no-access-check-cnf-b
+    params: 
+      - name: script
+        value: "kubectl $@"
+      - name: image
+        value: lachlanevenson/k8s-kubectl
+      - name: args
+        value:
+          - "kubectl auth can-i create secrets --namespace cnf-b --as cnf-a-svc"
+    workspaces:
+      - name: kubeconfig-dir
+        workspace: kubeconfig-dir
+      - name: manifest-dir
+        workspace: manifest-dir
+    taskRef:
+      name: kubernetes-actions
+  - name: no-access-check-cnf-a
+    params: 
+      - name: script
+        value: "kubectl $@"
+      - name: image
+        value: lachlanevenson/k8s-kubectl
+      - name: args
+        value:
+          - "kubectl auth can-i create secrets --namespace cnf-a --as cnf-b-svc"
+    workspaces:
+      - name: kubeconfig-dir
+        workspace: kubeconfig-dir
+      - name: manifest-dir
+        workspace: manifest-dir
+    taskRef:
+      name: kubernetes-actions

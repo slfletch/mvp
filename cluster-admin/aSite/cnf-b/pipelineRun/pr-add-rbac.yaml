@@ -1,0 +1,22 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: git-clone-checking-out-a-branch
+spec:
+  pipelineRef:
+    name: p-add-rbac
+  workspaces:
+  - name: shared-data
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: nfs-provisioner
+  params:
+  - name: repo-url
+    value: https://github.com/slfletch/mvp.git
+  - name: branch-name
+    value: master
