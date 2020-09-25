@@ -1,3 +1,4 @@
+---
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
@@ -41,3 +42,5 @@ spec:
       - image: lachlanevenson/k8s-kubectl
         script: |
           cat cluster-admin/tekton/catalog/task/*/*.yaml | kubectl apply -f -
+...
+

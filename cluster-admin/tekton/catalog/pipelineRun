@@ -1,13 +1,71 @@
+---
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: kubernetes-actions
+  name: pr-setup
 spec:
-  serviceAccountName: default
   pipelineRef:
     name: p-create-tasks
   workspaces:
-    - name: kubeconfig-dir
-      emptyDir: {}
-    - name: manifest-dir
-      emptyDir: {}
+  - name: shared-data
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: nfs-provisioner
+  params:
+  - name: repo-url
+    value: https://github.com/slfletch/mvp.git
+  - name: branch-name
+    value: master
+...
+---
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: pr-add-rbac
+spec:
+  pipelineRef:
+    name: p-add-rbac
+  workspaces:
+  - name: shared-data
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: nfs-provisioner
+  params:
+  - name: repo-url
+    value: https://github.com/slfletch/mvp.git
+  - name: branch-name
+    value: master
+...
+---
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: pr-status
+spec:
+  pipelineRef:
+    name: p-status
+  workspaces:
+  - name: shared-data
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: nfs-provisioner
+  params:
+  - name: repo-url
+    value: https://github.com/slfletch/mvp.git
+  - name: branch-name
+    value: master
