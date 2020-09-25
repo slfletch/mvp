@@ -41,6 +41,6 @@ spec:
       steps:
       - image: lachlanevenson/k8s-kubectl
         script: |
-          cat cluster-admin/tekton/catalog/task/*/*.yaml | kubectl apply -f -
+          cat ./cluster-admin/tekton/catalog/task/*/*.yaml | kubectl apply -f -
 ...
 
