@@ -1,3 +1,4 @@
+---
 apiVersion: triggers.tekton.dev/v1alpha1
 kind: EventListener
 metadata:
@@ -10,3 +11,4 @@ spec:
         - ref: gerrit-trigger-binding
       template:
         name: gerrit-trigger-template
+...
