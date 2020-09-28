@@ -12,11 +12,11 @@ spec:
     - name: gitRevision
       value: master
     - name: pathToContext
-      value: ./tenant3
+      value: ./tenant3/
     - name: pathToYamlFile
       value: deployment.yaml
     - name: imageUrl
-      value: "stacey-0.localdomain:30003/tcicd"
+      value: "stacey-0.localdomain:30003/tcicd/demo"
     - name: imageTag
       value: "1.0" 
   serviceAccountName: build-bot
