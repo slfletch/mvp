@@ -9,4 +9,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: mvp-svc
-    namespace: mvp
+    namespace: cnf-a

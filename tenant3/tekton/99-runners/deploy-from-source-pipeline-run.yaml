@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  generateName: deploy-from-source-pipeline-
+  generateName: deploy-from-source-pipeline
 spec:
   pipelineRef:
     name: deploy-from-source-pipeline
@@ -12,16 +12,17 @@ spec:
     - name: gitRevision
       value: master
     - name: pathToContext
-      value: ./tenant3/
+      value: tenant3/
     - name: pathToYamlFile
       value: deployment.yaml
     - name: imageUrl
-      value: stacey-0.localdomain:30003/tcicd/standardized-docker-pipeline-example
+      value: stacey-0.localdomain:30003/tcicd/atest
     - name: imageTag
-      value: 1.0 
+      value: "1.0" 
   serviceAccountName: build-bot
   workspaces:
     - name: git-source
       persistentVolumeClaim:
         claimName: standardized-docker-pipeline-example-pvc
 ...
+
