@@ -14,7 +14,7 @@ spec:
       description: The build context used by Kaniko.
       default: ./
     - name: EXTRA_ARGS
-      default: "--skip-tls-verify"
+      default: "--skip-tls-verify --registry-certificate stacey-0.localdomain:30003=./tenant3/harbor-ca.crt"
     - name: BUILDER_IMAGE
       description: The image on which builds will run
       default: gcr.io/kaniko-project/executor:latest
@@ -23,7 +23,7 @@ spec:
   results:
     - name: IMAGE-DIGEST
       description: Digest of the image just built.
-
+  
   steps:
     - name: build-and-push
       workingDir: $(workspaces.source.path)
@@ -34,6 +34,7 @@ spec:
         - name: DOCKER_CONFIG
           value: /tekton/home/.docker
       command:
+        - echo $(workspaces.source.path)
         - /kaniko/executor
         - $(params.EXTRA_ARGS)
         - --dockerfile=$(params.DOCKERFILE)
