@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: standardized-docker-pipeline-example
+  labels:
+    app: standardized-docker-pipeline-example
+spec:
+  selector:
+    matchLabels:
+      app: standardized-docker-pipeline-example
+  template:
+    metadata:
+      labels:
+        app: standardized-docker-pipeline-example
+    spec:
+      containers:
+      - name: standardized-docker-pipeline-example
+        image: __IMAGE__

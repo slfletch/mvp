@@ -1,0 +1,12 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: gerrit-event-listener
+spec:
+  serviceAccountName: build-bot
+  triggers:
+    - name: gerrit-event-trigger
+      bindings:
+        - ref: gerrit-trigger-binding
+      template:
+        name: gerrit-trigger-template

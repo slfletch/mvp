@@ -1,0 +1,44 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: gerrit-trigger-template
+spec:
+  params:
+    - name: gitUrl
+      description: Git repository url
+    - name: gitRevision
+      description: Git revision to check out
+    - name: pathToContext
+      description: The path to the build context, used by Kaniko - within the workspace
+    - name: pathToYamlFile
+      description: The path to the yaml file to deploy within the git source
+    - name: imageUrl
+      description: Image name including repository
+    - name: imageTag
+      description: Image tag
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1alpha1
+      kind: PipelineRun
+      metadata:
+        generateName: deploy-from-source-triggered-pipeline-
+      spec:
+        pipelineRef:
+          name: deploy-from-source-pipeline
+        params:
+        - name: gitUrl
+          value: $(tt.params.gitUrl)
+        - name: gitRevision
+          value: $(tt.params.gitRevision)
+        - name: pathToContext
+          value: $(tt.params.pathToContext)
+        - name: pathToYamlFile
+          value: $(tt.params.pathToYamlFile)
+        - name: imageUrl
+          value: $(tt.params.imageUrl)
+        - name: imageTag
+          value: $(tt.params.imageTag)
+        serviceAccountName: build-bot
+        workspaces:
+          - name: git-source
+            persistentVolumeClaim:
+              claimName: standardized-docker-pipeline-example-pvc

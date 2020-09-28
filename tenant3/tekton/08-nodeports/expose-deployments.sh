@@ -1,0 +1,2 @@
+kubectl expose deployment el-gerrit-event-listener --type=NodePort --name=event-listener-node-port
+kubectl expose deployment -n tekton-pipelines tekton-dashboard --type=NodePort --name=tekton-dashboard-node-port

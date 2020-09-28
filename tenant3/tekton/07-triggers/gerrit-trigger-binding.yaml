@@ -1,0 +1,18 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: gerrit-trigger-binding
+spec:
+  params:
+    - name: gitUrl
+      value: https://github.com/DannyMassa/standardized-docker-pipeline.git
+    - name: gitRevision
+      value: master
+    - name: pathToContext
+      value: ./
+    - name: pathToYamlFile
+      value: deployment.yaml
+    - name: imageUrl
+      value: jenkinsxdemo/standardized-docker-pipeline-example
+    - name: imageTag
+      value: $(body.change.id)

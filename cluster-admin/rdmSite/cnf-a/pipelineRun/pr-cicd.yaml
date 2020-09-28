@@ -1,0 +1,25 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: deploy-from-source-pipeline-
+spec:
+  pipelineRef:
+    name: deploy-from-source-pipeline
+  params:
+    - name: gitUrl
+      value: https://github.com/slfletch/mvp.git
+    - name: gitRevision
+      value: master
+    - name: pathToContext
+      value: ./
+    - name: pathToYamlFile
+      value: deployment.yaml
+    - name: imageUrl
+      value: stacey-0.localdomain:30003/tcicd/standardized-docker-pipeline-example:1.0
+    - name: imageTag
+      value: iansupdate3
+  serviceAccountName: build-bot
+  workspaces:
+    - name: git-source
+      persistentVolumeClaim:
+        claimName: standardized-docker-pipeline-example-pvc
