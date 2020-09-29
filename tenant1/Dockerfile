@@ -19,4 +19,4 @@ RUN set -ex ;\
     helm init --client-only ;\
     helm plugin install https://github.com/chartmuseum/helm-push
 
-COPY "standardized_scripts/*.sh" "/usr/local/bin/"
+COPY "tenant1/standardized_scripts/*.sh" "/usr/local/bin/"

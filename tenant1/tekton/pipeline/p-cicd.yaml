@@ -1,65 +1,38 @@
+---
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: deploy-from-source-pipeline
+  name: docker-test-pipeline
 spec:
   workspaces:
-    - name: git-source
-      description: The git repo
-  params:
-    - name: gitUrl
-      description: Git repository url
-    - name: gitRevision
-      description: Git revision to check out
-    - name: pathToContext
-      description: The path to the build context, used by Kaniko - within the workspace
-    - name: pathToYamlFile
-      description: The path to the yaml file to deploy within the git source
-    - name: imageUrl
-      description: Image name including repository
-    - name: imageTag
-      description: Image tag
+  - name: shared-workspace
   tasks:
-    - name: clone-repo
-      taskRef:
-        name: git-clone
-      workspaces:
-        - name: output
-          workspace: git-source
-      params:
-        - name: url
-          value: "$(params.gitUrl)"
-        - name: revision
-          value: "$(params.gitRevision)"
-        - name: subdirectory
-          value: "."
-        - name: deleteExisting
-          value: "true"
-    - name: source-to-image
-      taskRef:
-        name: kaniko
-      runAfter:
-        - clone-repo
-      workspaces:
-        - name: source
-          workspace: git-source
-      params:
-        - name: CONTEXT
-          value: $(params.pathToContext)
-        - name: IMAGE
-          value: $(params.imageUrl):$(params.imageTag)
-    - name: deploy-to-cluster
-      taskRef:
-        name: deploy-using-kubectl
-      runAfter:
-        - source-to-image
-      workspaces:
-        - name: git-source
-          workspace: git-source
-      params:
-        - name: pathToYamlFile
-          value: $(params.pathToYamlFile)
-        - name: imageUrl
-          value: $(params.imageUrl)
-        - name: imageTag
-          value: $(params.imageTag)
+  - name: fetch-repository
+    taskRef:
+      name: git-clone
+    workspaces:
+    - name: output
+      workspace: shared-workspace
+    params:
+    - name: url
+      value: https://github.com/slfletch/mvp
+    - name: subdirectory
+      value: ""
+    - name: deleteExisting
+      value: "true"
+  - name: docker-build
+    taskRef:
+      name: docker-build
+    runAfter:
+    - fetch-repository
+    workspaces:
+    - name: source
+      workspace: shared-workspace
+    params:
+    - name: image
+      value: stacey-0.localdomain:30003/tcicd/scdi:1.0
+    - name: insecure_registry
+      value: registry.docker-build-0-1.svc.cluster.local:5000
+    - name: dockerfile
+      value: ./tenant1/Dockerfile
+...
