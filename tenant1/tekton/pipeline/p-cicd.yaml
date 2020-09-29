@@ -35,4 +35,6 @@ spec:
       value: registry.docker-build-0-1.svc.cluster.local:5000
     - name: dockerfile
       value: ./tenant1/Dockerfile
+    - name: insecure_registry
+      value: "stacey-0.localdomain:30003"
 ...
