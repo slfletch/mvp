@@ -10,3 +10,4 @@ spec:
   - name: shared-workspace
     persistentvolumeclaim:
       claimName: docker-source-pvc
+...
