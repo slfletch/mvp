@@ -27,3 +27,4 @@ spec:
         - /bin/shellcheck
       args:
         - $(params.args)
+...

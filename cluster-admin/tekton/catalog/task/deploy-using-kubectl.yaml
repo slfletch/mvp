@@ -1,3 +1,4 @@
+---
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
@@ -29,3 +30,4 @@ spec:
         - "apply"
         - "-f"
         - "$(workspaces.git-source.path)/$(params.pathToYamlFile)"
+...

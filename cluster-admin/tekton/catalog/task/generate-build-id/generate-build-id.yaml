@@ -39,3 +39,4 @@ spec:
         ts=`cat $(results.timestamp.path)`
         buildId=$(inputs.params.base-version)-${ts}
         echo ${buildId} | tr -d "\n" | tee $(results.build-id.path)
+...

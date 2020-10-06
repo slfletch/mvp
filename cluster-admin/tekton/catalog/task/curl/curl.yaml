@@ -29,3 +29,4 @@ spec:
     image: "$(params.curl-image)"
     command: [curl]
     args: ["$(params.options[*])", "$(params.url)"]
+...

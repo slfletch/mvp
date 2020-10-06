@@ -115,3 +115,4 @@ spec:
   - name: image-push-creds
     secret:
       secretName: image-push-creds
+...

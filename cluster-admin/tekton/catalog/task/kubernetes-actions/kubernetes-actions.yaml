@@ -37,3 +37,4 @@ spec:
         $(params.script)
       args:
         - "$(params.args)"
+...

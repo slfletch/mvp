@@ -85,3 +85,4 @@ spec:
         secretKeyRef:
           name: $(params.server)
           key: port
+...
