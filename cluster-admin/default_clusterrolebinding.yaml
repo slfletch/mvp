@@ -1,0 +1,9 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: default
+  name: task-admin
+rules:
+- apiGroups: ["tekton.dev"] # "" indicates the core API group
+  resources: ["tasks"]
+  verbs: ["get","patch","create", "apply", "describe","delete"]
