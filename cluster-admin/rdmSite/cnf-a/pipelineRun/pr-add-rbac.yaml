@@ -16,6 +16,8 @@ spec:
             storage: 1Gi
         storageClassName: nfs-provisioner
   params:
+  - name: rbac-namespace
+    value: cnf-a
   - name: repo-url
     value: https://github.com/slfletch/mvp.git
   - name: branch-name

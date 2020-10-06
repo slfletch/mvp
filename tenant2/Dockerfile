@@ -1,6 +1,11 @@
 # Copyright 2019 AT&T Intellectual Property.  All other rights reserved.
-ARG FROM=ubuntu:20.04
+ARG FROM=mtn52r08c001.mini.mtn52c.cci.att.com:30003/library/dependencies/ubuntu:20.04
 FROM ${FROM} as build
+
+ENV http_proxy=http://pxyapp.proxy.att.com:8080
+ENV HTTP_PROXY=http://pxyapp.proxy.att.com:8080
+ENV https_proxy=http://pxyapp.proxy.att.com:8080
+ENV HTTPS_PROXY=http://pxyapp.proxy.att.com:8080
 
 RUN set -ex ;\
     apt-get update -y ;\
@@ -19,4 +24,11 @@ RUN set -ex ;\
     helm init --client-only ;\
     helm plugin install https://github.com/chartmuseum/helm-push
 
-COPY "standardized_scripts/*.sh" "/usr/local/bin/"
+# Copying the directory repeatedly yielded this error:
+# error building image: error building stage: failed to get files used from context: when specifying multiple sources in a COPY command, destination must be a directory and end in '/'
+COPY "standardized_scripts/run.sh" "/usr/local/bin/"
+COPY "standardized_scripts/setup.sh" "/usr/local/bin/"
+COPY "standardized_scripts/test.sh" "/usr/local/bin/"
+
+CMD ["/usr/bin/tail", "-f", "/dev/null"]
+

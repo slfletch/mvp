@@ -13,6 +13,9 @@ spec:
   - name: branch-name
     type: string
     description: The git branch to clone.
+  - name: rbac-namespace
+    type: string
+    description: The namespace to create rbac.
   workspaces:
   - name: shared-data
     description: |
@@ -26,6 +29,8 @@ spec:
     - name: output
       workspace: shared-data
     params:
+    - name: rbac-ns
+      value: $(params.rbac-namespace)
     - name: url
       value: $(params.repo-url)
     - name: revision
@@ -41,5 +46,5 @@ spec:
       steps:
       - image: lachlanevenson/k8s-kubectl
         script: |
-          cat $(workspaces.source.path)/rdmSite/*/rbac/*.yaml | kubectl apply -f -
+          cat $(workspaces.source.path)/rdmSite/$(params.rbac-ns)/rbac/*.yaml | kubectl apply -f -
 ...
