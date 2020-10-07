@@ -12,6 +12,32 @@ rules:
 - apiGroups: ["*"] # "" indicates the core API group
   resources: ["*"]
   verbs: ["get","patch","create", "apply", "describe","delete"]
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["secrets"]
+  verbs: ["get","list"]
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["pods"]
+  verbs: ["get", "watch", "list","describe"]
+- apiGroups: ["cnf-a"] # "" indicates the core API group
+  resources: ["pods"]
+  verbs: ["create", "delete", "list","describe"]
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resourceNames:
+  - config-logging
+  - config-observability
+  - config-leader-election
+  resources:
+  - configmaps
+  verbs:
+  - get
 ...
 ---
 kind: ClusterRole

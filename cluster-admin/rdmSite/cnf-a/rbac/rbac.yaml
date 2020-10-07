@@ -12,9 +12,6 @@ metadata:
   name: mvp-role
   namespace: cnf-a
 rules:
-- apiGroups: ["helm.fluxcd.io"] # "" indicates the core API group
-  resources: ["helmreleases"]
-  verbs: ["get","list","describe"]
 - apiGroups: [""] # "" indicates the core API group
   resources: ["secrets"]
   verbs: ["get","list"]
