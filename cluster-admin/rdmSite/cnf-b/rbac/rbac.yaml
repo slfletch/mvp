@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: cnf-a-svc
-  namespace: cnf-a
+  name: cnf-b-svc
+  namespace: cnf-b
 ---
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: mvp-role
-  namespace: cnf-a
+  namespace: cnf-b
 rules:
 - apiGroups: ["helm.fluxcd.io"] # "" indicates the core API group
   resources: ["helmreleases"]
@@ -19,7 +19,7 @@ rules:
 - apiGroups: [""] # "" indicates the core API group
   resources: ["pods"]
   verbs: ["get", "watch", "list","describe"]
-- apiGroups: ["cnf-a"] # "" indicates the core API group
+- apiGroups: ["cnf-b"] # "" indicates the core API group
   resources: ["pods"]
   verbs: ["create", "delete", "list","describe"]
 - apiGroups:
@@ -45,11 +45,11 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: mvp-rolebinding
-  namespace: cnf-a
+  namespace: cnf-b
 subjects:
 # Kubernetes service account
 - kind: ServiceAccount
-  name: cnf-a-svc
+  name: cnf-b-svc
 roleRef:
   kind: Role
   name: mvp-role
@@ -67,5 +67,5 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: mvp-svc
-    namespace: cnf-a
+    namespace: cnf-b
 ...

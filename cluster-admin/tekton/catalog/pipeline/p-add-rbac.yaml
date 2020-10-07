@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: p-add-rbac
+  name: p-create-rbac
 spec:
   description: |
     Add service account that will have access to k8s objects
@@ -16,6 +16,15 @@ spec:
   - name: rbac-namespace
     type: string
     description: The namespace to create rbac.
+  - name: httpProxy
+    type: string
+    default: "http://pxyapp.proxy.att.com:8080/"
+  - name: httpsProxy
+    type: string
+    default: "http://pxyapp.proxy.att.com:8080/"
+  - name: noProxy
+    default: "127.0.0.1,localhost,.att.com,10.96.0.0/12,.svc.cluster.local,32.68.220.18,.tekton-pipelines.svc,192.168.0.0/16"
+
   workspaces:
   - name: shared-data
     description: |
@@ -29,22 +38,31 @@ spec:
     - name: output
       workspace: shared-data
     params:
-    - name: rbac-ns
-      value: $(params.rbac-namespace)
     - name: url
       value: $(params.repo-url)
     - name: revision
       value: $(params.branch-name)
+    - name: httpProxy
+      value: $(params.httpProxy)
+    - name: httpsProxy
+      value: $(params.httpsProxy)
+    - name: noProxy
+      value: $(params.noProxy)
   - name: create-rbac
     runAfter: ["fetch-repo"]  # Wait until the clone is done before reading the readme.
     workspaces:
     - name: source
       workspace: shared-data
+    params:
+    - name: rbac-ns
+      value: $(params.rbac-namespace)
     taskSpec:
       workspaces:
       - name: source
+      params:
+      - name: rbac-ns
       steps:
       - image: lachlanevenson/k8s-kubectl
         script: |
-          cat $(workspaces.source.path)/rdmSite/$(params.rbac-ns)/rbac/*.yaml | kubectl apply -f -
+          cat $(workspaces.source.path)/cluster-admin/rdmSite/$(params.rbac-ns)/rbac/rbac.yaml | kubectl apply -f -
 ...

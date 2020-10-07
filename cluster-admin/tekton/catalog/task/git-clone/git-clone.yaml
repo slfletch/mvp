@@ -69,6 +69,10 @@ spec:
       description: log the commands used during execution
       type: string
       default: "true"
+    - name: rbac-ns
+      description: Allow to specify what namespace is being used
+      type: string
+      default: default
   results:
     - name: commit
       description: The precise commit SHA that was fetched by this Task
