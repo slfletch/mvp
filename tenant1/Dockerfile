@@ -2,6 +2,10 @@
 ARG FROM=ubuntu:20.04
 FROM ${FROM} as build
 
+ENV HTTP_PROXY="http://pxyapp.proxy.att.com:8080/"
+ENV HTTPS_PROXY="http://pxyapp.proxy.att.com:8080/"
+ENV NO_PROXY="127.0.0.1,localhost,.att.com,10.96.0.0/12,.svc.cluster.local,32.68.220.18,.tekton-pipelines.svc,192.168.0.0/16"
+
 RUN set -ex ;\
     apt-get update -y ;\
     apt-get install -y --no-install-recommends \

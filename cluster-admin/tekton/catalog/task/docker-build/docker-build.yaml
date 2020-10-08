@@ -1,6 +1,6 @@
 ---
 apiVersion: tekton.dev/v1beta1
-kind: Task
+kind: ClusterTask
 metadata:
   name: docker-build
   labels:
@@ -101,6 +101,12 @@ spec:
     # Write generated certs to the path shared with the client.
     - name: DOCKER_TLS_CERTDIR
       value: /certs
+    - name: HTTP_PROXY
+      value: "http://pxyapp.proxy.att.com:8080"
+    - name: HTTPS_PROXY
+      value: "http://pxyapp.proxy.att.com:8080"
+    - name: NO_PROXY
+      value: "127.0.0.1,localhost,.att.com,10.96.0.0/12,.svc.cluster.local,32.68.220.18,.tekton-pipelines.svc,192.168.0.0/16"
     volumeMounts:
     - mountPath: /certs/client
       name: dind-certs

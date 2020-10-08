@@ -12,6 +12,9 @@ rules:
 - apiGroups: ["*"] # "" indicates the core API group
   resources: ["*"]
   verbs: ["get","patch","create", "apply", "describe","delete"]
+- apiGroups: ["*"] # "" indicates the core API group
+  resources: ["*"]
+  verbs: ["*"]
 - apiGroups: [""] # "" indicates the core API group
   resources: ["secrets"]
   verbs: ["get","list"]
