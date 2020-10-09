@@ -30,12 +30,11 @@ names can be added by contacting an administrator so that they stay consistent a
   6. 05-cleanup.sh
   TODO (Stacey) Example deletes the deployed helm chart from the local cluster.
 * ./Dockerfile
-Found at the root of your repository and defines how to package the Standardized Container Docker Image (SCDI). The current example is
+Found at the root of your repository and used to create your Standardized Container Docker Image (SCDI). The current example:
   1. Has BASE_IMAGE of Ubuntu:20.04 (Line 2)
   2. Sets the proxy Environment variables if required (Line 5-10)
   3. Installs any required packages to execute the standardized scripts (Line 12-28)
   4. Copies the standardized scripts into the Docker image to be utilized by Tekton pipelines (Line 30)
-your CNF.
 * ./tekton/pipelineResource/pres-create-scdi.yaml defines the resources required to build your standardized container docker image.
   1. Creates a Persistent Volume Claim (pvc) in your defined namespace
   2. Creates a Deployment object for your Docker-in-Docker (DIND) build process
@@ -43,8 +42,7 @@ your CNF.
 * ./tekton/pipelines/p-create-scdi.yaml defines a reusable pipeline that calls on the shared clusterTasks in the default namespace. This Tekton pipeline definition does not execute any of the steps but creates the Tekton pipeline object that will executed when the PipelineRun object is created.
   1. Clone your git repository that holds your Dockerfile and standardized scripts.
   2. Builds and Versions your standardized container to be used for your CI/CD workflow.
-  3. Publishes and Scans your standardized container for any Vulnerabilities in Harbor
-* ./tekton/pipelineRuns/prun-create-scdi.yaml launches a pipeline to build a specific application, in this case the build of the standardized container docker image (scdi) at a specific commit (Example shows master)
+  3. Publishes and Scans your standardized container for any vulnerabilities in Harbor
 
 ### Run a pipeline
 To create your SCDI explained above you can run the following steps that will result in a container published into Harbor that will be utilized to run your CNF's CI/CD workflow.
