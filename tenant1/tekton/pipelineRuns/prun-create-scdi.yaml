@@ -1,0 +1,13 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: prun-create-scdi.yaml
+spec:
+  pipelineRef:
+    name: p-create-scdi
+  workspaces:
+  - name: shared-workspace
+    persistentvolumeclaim:
+      claimName: docker-source-pvc
+...

@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: docker-test-pipeline
+  name: p-create-scdi
 spec:
   workspaces:
   - name: shared-workspace
