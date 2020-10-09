@@ -6,9 +6,7 @@
     - [./tekton/pipelineResources/pres-create-scdi.yaml](#./tekton/pipelineResources/pres-create-scdi.yaml)
     - [./tekton/pipelines/p-create-scdi.yaml](#./tekton/pipelines/p-create-scdi.yaml)
     - [./tekton/pipelineRuns/prun-create-scdi.yaml](#./tekton/pipelineRuns/prun-create-scdi.yaml)
-- [Background information on TektonCD pipelineruns, pipelines and tasks](#background-information-on-tektoncd-pipelineruns-pipelines-and-tasks)
-- [Parameterization](#parameterization)
-- [Secrets](#secrets)
+- [Useful Documentation](#useful-documentation)
 
 ## Tekton Standardized Container Build Process with Tekton pipelines
 This directory contains Tekton pipelines intended to rebuild your standardized container docker image that will include
@@ -61,18 +59,10 @@ To create your SCDI explained above you can run the following steps that will re
    * TODO (Stacey) Bring pipeline parameters out to the pipelineRun definition instead of pipeline.
 This will result in a scdi image published into Harbor docker registry at mtn52r08c001.mini.mtn52c.cci.att.com:30003/tenent0/scdi:1.1
      
-
-
-
-
-## Resources [pipeline resources](https://github.com/tektoncd/pipeline/blob/master/docs/resources.md) and [pipeline parameters](https://github.com/tektoncd/pipeline/blob/master/docs/pipelines.md#parameters) to specify what application to build and the image to create
-  * [Git Resources](https://github.com/tektoncd/pipeline/blob/master/docs/resources.md#git-resource) are used to define
-    * The repo and commit containing the source code to build the image from
-    * The repo containing the manifests to update
-       * The repo and commit containing the tools used for CI/CD
+### Useful DocumentationResources 
+[pipeline resources](https://github.com/tektoncd/pipeline/blob/master/docs/resources.md)
+  * [Git Resources](https://github.com/tektoncd/pipeline/blob/master/docs/resources.md#git-resource) 
   * [Image Resource](https://github.com/tektoncd/pipeline/blob/master/docs/resources.md#image-resource) is used to define
     the docker image to use
-
-  * Parameters are used to define various values specific to each application such as the relative paths of the Docker file
-    in the source repository
+[pipeline parameters](https://github.com/tektoncd/pipeline/blob/master/docs/pipelines.md#parameters) to specify what application to build and the image to create
 
