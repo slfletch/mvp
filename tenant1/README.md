@@ -1,7 +1,7 @@
 **Table of Contents**
-- [Tekton Standardized Container Build Process with tektoncd pipelines](#tekton-standardized-container-build-process-with-tektoncd-pipelines)
+- [Tekton Standardized Container Build Process with Tekton pipelines](#tekton-standardized-container-build-process-with-tektoncd-pipelines)
   - [How it works](#howitworks)
-    - [./standardizzed scripts](#./standardized_scripts)
+    - [./standardized scripts](#./standardized-scripts)
     - [./Dockerfile](#./Dockerfile)
     - [./tekton/pipelineResources/pres-create-scdi.yaml](#./tekton/pipelineResources/pres-create-scdi.yaml)
     - [./tekton/pipelines/p-create-scdi.yaml](#./tekton/pipelines/p-create-scdi.yaml)
@@ -10,7 +10,7 @@
 - [Parameterization](#parameterization)
 - [Secrets](#secrets)
 
-## Tekton Standardized Container Build Process with TektonCD pipelines
+## Tekton Standardized Container Build Process with Tekton pipelines
 This directory contains Tekton pipelines intended to rebuild your standardized container docker image that will include
 all of the steps required to deploy your CNF.
 ### How it works
@@ -26,7 +26,7 @@ names can be added by contacting an administrator so that they stay consistent a
   Example downloads test helm chart from Harbor and installs the helm chart into the local cluster
   4. 03-test
   Example tests the rabbitmq helm chart deployed in step 02 and executes a helm test on it.
-  5- 04-publish.sh
+  5. 04-publish.sh
   TODO (Stacey) Example moves the tested helm chart into its final destination for promotion in Harbor.
   6. 05-cleanup.sh
   TODO (Stacey) Example deletes the deployed helm chart from the local cluster.
@@ -35,7 +35,7 @@ Found at the root of your repository and defines how to package the Standardized
   1. Has BASE_IMAGE of Ubuntu:20.04 (Line 2)
   2. Sets the proxy Environment variables if required (Line 5-10)
   3. Installs any required packages to execute the standardized scripts (Line 12-28)
-  4. Copies the standardized scripts into the Docker image to be utilized by Tekton pipelines ()
+  4. Copies the standardized scripts into the Docker image to be utilized by Tekton pipelines (Line 30)
 your CNF.
 * pipelineResource/pres-create-scdi.yaml defines the resources required to build your standardized container docker image.
   1. Creates a Persistent Volume Claim (pvc) in your defined namespace
@@ -50,7 +50,7 @@ PipelineRun object is created.
   that uses this pipeline
 
 ### Run a pipeline
-To update a specific application
+To create your SCDI explained above you can run the following steps that will result in a container published into Harbor that will be utilized to run your CNF's CI/CD workflow.
 1. Administrator will have created a shared clusterTasks, namespace and RBAC controls required prior to steps 2-4.
    * **namespace**: **cnf-a**
 2. Create the PipelineResources
@@ -59,6 +59,11 @@ To update a specific application
    * kubectl create -n cnf-a -f ./tekton/pipelines/p-create-scdi.yaml
 4. Create the PipelineRun that will immediately execute the pipeline created in Step 3.
    * TODO (Stacey) Bring pipeline parameters out to the pipelineRun definition instead of pipeline.
+This will result in a scdi image published into Harbor docker registry at mtn52r08c001.mini.mtn52c.cci.att.com:30003/tenent0/scdi:1.1
+     
+
+
+
 
 ## Resources [pipeline resources](https://github.com/tektoncd/pipeline/blob/master/docs/resources.md) and [pipeline parameters](https://github.com/tektoncd/pipeline/blob/master/docs/pipelines.md#parameters) to specify what application to build and the image to create
   * [Git Resources](https://github.com/tektoncd/pipeline/blob/master/docs/resources.md#git-resource) are used to define
