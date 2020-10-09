@@ -7,6 +7,7 @@
     - [./tekton/pipelines/p-create-scdi.yaml](#./tekton/pipelines/p-create-scdi.yaml)
     - [./tekton/pipelineRuns/prun-create-scdi.yaml](#./tekton/pipelineRuns/prun-create-scdi.yaml)
 - [Useful Documentation](#useful-documentation)
+  - [Resources](#resources)
 
 ## Tekton Standardized Container Build Process with Tekton pipelines
 This directory contains Tekton pipelines intended to rebuild your standardized container docker image that will include
@@ -59,7 +60,8 @@ To create your SCDI explained above you can run the following steps that will re
    * TODO (Stacey) Bring pipeline parameters out to the pipelineRun definition instead of pipeline.
 This will result in a scdi image published into Harbor docker registry at mtn52r08c001.mini.mtn52c.cci.att.com:30003/tenent0/scdi:1.1
      
-### Useful DocumentationResources 
+### Useful Documentation
+#### Resources
 [pipeline resources](https://github.com/tektoncd/pipeline/blob/master/docs/resources.md)
   * [Git Resources](https://github.com/tektoncd/pipeline/blob/master/docs/resources.md#git-resource) 
   * [Image Resource](https://github.com/tektoncd/pipeline/blob/master/docs/resources.md#image-resource) is used to define
