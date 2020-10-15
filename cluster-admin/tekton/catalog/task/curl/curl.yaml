@@ -1,6 +1,6 @@
 ---
 apiVersion: tekton.dev/v1beta1
-kind: Task
+kind: ClusterTask
 metadata:
   name: curl
   labels:
@@ -10,7 +10,7 @@ metadata:
     tekton.dev/tags: search
 spec:
   description: >-
-    This task performs curl operation to transfer data from internet.
+    This ClusterTask performs curl operation to transfer data from internet.
 
   params:
   - name: url
