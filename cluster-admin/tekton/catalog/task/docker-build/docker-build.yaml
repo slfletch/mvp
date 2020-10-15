@@ -88,7 +88,7 @@ spec:
       value: /certs/ca
     workingDir: $(workspaces.source.path)
     script: |
-      docker push $(params.build_extra_args) $(params.image)
+      docker push $(params.push_extra_args) $(params.image)
     volumeMounts:
       - mountPath: /certs/client
         name: dind-certs

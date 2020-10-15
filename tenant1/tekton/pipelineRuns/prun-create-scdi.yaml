@@ -27,7 +27,6 @@ spec:
     value: "127.0.0.1,localhost,.att.com,10.96.0.0/12,.svc.cluster.local,32.68.220.18,.tekton-pipelines.svc,192.168.0.0/16"
   - name: image
     value: mtn52r08c001.mini.mtn52c.cci.att.com:30003/tenent0/scdi:1.1
-  - name: 
   - name: dockerfile
     value: ./tenant1/Dockerfile
   - name: insecure_registry
