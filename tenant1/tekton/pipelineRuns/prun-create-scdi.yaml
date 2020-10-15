@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: prun-create-scdi.yaml
+  name: prun-create-scdi
 spec:
   pipelineRef:
     name: p-create-scdi
@@ -18,7 +18,7 @@ spec:
   - name: git-revision
     value: "master"
   - name: deleteExisting
-    value: true
+    value: "true"
   - name: httpProxy
     value: "http://pxyapp.proxy.att.com:8080/"
   - name: httpsProxy

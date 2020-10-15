@@ -36,13 +36,13 @@ spec:
   - name: insecure_registry
     description: Allows the user to push to an insecure registry that has been specified
     default: ""
-  - name: http_proxy
+  - name: httpProxy
     description: HTTP Proxy environment variable if required
     default: ""
-  - name: https_proxy
+  - name: httpsProxy
     description: HTTPS Proxy environment variable if required
     default: ""
-  - name: no_proxy
+  - name: noProxy
     description: No Proxy environment variable
     default: ""
   workspaces:
@@ -111,11 +111,11 @@ spec:
     - name: DOCKER_TLS_CERTDIR
       value: /certs
     - name: HTTP_PROXY
-      value: $(params.http_proxy)
+      value: $(params.httpProxy)
     - name: HTTPS_PROXY
-      value: $(params.https_proxy)
+      value: $(params.httpsProxy)
     - name: NO_PROXY
-      value: $(params.no_proxy)
+      value: $(params.noProxy)
     volumeMounts:
     - mountPath: /certs/client
       name: dind-certs
