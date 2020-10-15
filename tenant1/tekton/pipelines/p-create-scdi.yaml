@@ -6,6 +6,17 @@ metadata:
 spec:
   workspaces:
   - name: shared-workspace
+  params:
+  - name: git-url
+  - name: subdirectory
+  - name: git-revision
+  - name: deleteExisting
+  - name: httpProxy
+  - name: httpsProxy
+  - name: noProxy
+  - name: image
+  - name: dockerfile
+  - name: insecure_registry
   tasks:
   - name: fetch-repository
     taskRef:
@@ -16,17 +27,17 @@ spec:
       workspace: shared-workspace
     params:
     - name: url
-      value: https://github.com/slfletch/mvp
+      value: $(params.git-url)
     - name: subdirectory
-      value: ""
+      value: $(params.subdirectory)
     - name: deleteExisting
-      value: "true"
+      value: $(params.deleteExisting)
     - name: httpProxy
-      value: "http://pxyapp.proxy.att.com:8080/"
+      value: $(params.httpProxy)
     - name: httpsProxy
-      value: "http://pxyapp.proxy.att.com:8080/"
+      value: $(params.httpsProxy)
     - name: noProxy
-      value: "127.0.0.1,localhost,.att.com,10.96.0.0/12,.svc.cluster.local,32.68.220.18,.tekton-pipelines.svc,192.168.0.0/16"
+      value: $(params.noProxy)
   - name: docker-build
     taskRef:
       kind: ClusterTask
@@ -38,9 +49,11 @@ spec:
       workspace: shared-workspace
     params:
     - name: image
-      value: mtn52r08c001.mini.mtn52c.cci.att.com:30003/tenent0/scdi:1.1
+      value: $(params.image)
+    - name: build_extra_args
+      value: "--build-arg HTTP_PROXY=$(params.httpProxy) --build-arg HTTPS_PROXY=$(params.httpsProxy) --build-arg NO_PROXY=$(params.noProxy)"
     - name: dockerfile
-      value: ./tenant1/Dockerfile
+      value: $(params.dockerfile)
     - name: insecure_registry
-      value: "mtn52r08c001.mini.mtn52c.cci.att.com:30003"
+      value: $(params.insecure_registry)
 ...

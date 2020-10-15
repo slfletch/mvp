@@ -2,12 +2,12 @@
 ARG FROM=ubuntu:20.04
 FROM ${FROM} as build
 
-ENV HTTPS_PROXY="http://pxyapp.proxy.att.com:8080/"
-ENV HTTPS_PROXY="http://pxyapp.proxy.att.com:8080/"
-ENV NO_PROXY="127.0.0.1,localhost,.att.com,10.96.0.0/12,.svc.cluster.local,32.68.220.18,.tekton-pipelines.svc,192.168.0.0/16"
-ENV http_proxy="http://pxyapp.proxy.att.com:8080/"
-ENV https_proxy="http://pxyapp.proxy.att.com:8080/"
-ENV no_proxy="127.0.0.1,localhost,.att.com,10.96.0.0/12,.svc.cluster.local,32.68.220.18,.tekton-pipelines.svc,192.168.0.0/16"
+ENV HTTPS_PROXY=${HTTP_PROXY}
+ENV HTTPS_PROXY=${HTTPS_PROXY}
+ENV NO_PROXY=${NO_PROXY}
+ENV http_proxy=${HTTP_PROXY}
+ENV https_proxy=${HTTPS_PROXY}
+ENV no_proxy=${NO_PROXY}
 
 RUN set -ex ;\
     apt-get update -y ;\

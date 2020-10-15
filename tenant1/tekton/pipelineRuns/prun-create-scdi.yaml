@@ -10,4 +10,26 @@ spec:
   - name: shared-workspace
     persistentvolumeclaim:
       claimName: docker-source-pvc
+  params:
+  - name: git-url
+    value: "https://github.com/slfletch/mvp"
+  - name: subdirectory
+    value: ""
+  - name: git-revision
+    value: "master"
+  - name: deleteExisting
+    value: true
+  - name: httpProxy
+    value: "http://pxyapp.proxy.att.com:8080/"
+  - name: httpsProxy
+    value: "http://pxyapp.proxy.att.com:8080/"
+  - name: noProxy
+    value: "127.0.0.1,localhost,.att.com,10.96.0.0/12,.svc.cluster.local,32.68.220.18,.tekton-pipelines.svc,192.168.0.0/16"
+  - name: image
+    value: mtn52r08c001.mini.mtn52c.cci.att.com:30003/tenent0/scdi:1.1
+  - name: 
+  - name: dockerfile
+    value: ./tenant1/Dockerfile
+  - name: insecure_registry
+    value: "mtn52r08c001.mini.mtn52c.cci.att.com:30003"
 ...
