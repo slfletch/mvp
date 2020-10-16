@@ -1,0 +1,39 @@
+apiVersion: tekton.dev/v1alpha1
+kind: TaskRun
+metadata:
+  name: mvp-task-deploy-rabbitmq
+  namespace: cnf-a
+spec:
+  serviceAccountName: cnf-a-svc
+  taskSpec:
+    steps:
+    - name: step-setup
+      image: mtn52r08c001.mini.mtn52c.cci.att.com:30003/tenent0/scdi:1.1
+      script: |
+        #!/bin/bash
+        /usr/local/bin/00_setup.sh
+    - name: step-ci
+      image: mtn52r08c001.mini.mtn52c.cci.att.com:30003/tenent0/scdi:1.1
+      script: |
+        #!/bin/bash
+        /usr/local/bin/01-ci.sh
+    - name: step-cd
+      image: mtn52r08c001.mini.mtn52c.cci.att.com:30003/tenent0/scdi:1.1
+      script: |
+        #!/bin/bash
+        /usr/local/bin/02-cd.sh
+    - name: step-test
+      image: mtn52r08c001.mini.mtn52c.cci.att.com:30003/tenent0/scdi:1.1
+      script: |
+        #!/bin/bash
+        /usr/local/bin/03-test.sh
+    - name: step-publish
+      image: mtn52r08c001.mini.mtn52c.cci.att.com:30003/tenent0/scdi:1.1
+      script: |
+        #!/bin/bash
+        /usr/local/bin/04-publish.sh
+    - name: step-cleanup
+      image: mtn52r08c001.mini.mtn52c.cci.att.com:30003/tenent0/scdi:1.1
+      script: |
+        #!/bin/bash
+        /usr/local/bin/05-cleanup.sh

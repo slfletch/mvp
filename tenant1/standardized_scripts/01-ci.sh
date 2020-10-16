@@ -20,4 +20,4 @@ kubectl get -n harbor secrets harbor-harbor-harbor-nginx -o 'go-template={{ inde
 #Adding the chart repository to helm
 
 helm plugin install https://github.com/chartmuseum/helm-push
-helm push --ca-file harbor-ca.crt --username=admin --password=Harbor12345 ./test/rabbitmq-0.1.0.tgz tcicd
+helm push --ca-file harbor-ca.crt --username=admin --password=Harbor12345 ./test/rabbitmq-0.1.0.tgz tenent0
