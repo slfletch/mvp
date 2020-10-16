@@ -16,6 +16,9 @@ rules:
   resources: ["secrets"]
   verbs: ["get","list"]
 - apiGroups: [""] # "" indicates the core API group
+  resources: ["clusterTask"]
+  verbs: ["get","list"]
+- apiGroups: [""] # "" indicates the core API group
   resources: ["pods"]
   verbs: ["get", "watch", "list","describe"]
 - apiGroups: ["cnf-a"] # "" indicates the core API group
@@ -66,5 +69,8 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: mvp-svc
+    namespace: cnf-a
+  - kind: ServiceAccount
+    name: cnf-a-svc
     namespace: cnf-a
 ...

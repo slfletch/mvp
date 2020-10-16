@@ -58,4 +58,10 @@ spec:
       value: $(params.dockerfile)
     - name: insecure_registry
       value: $(params.insecure_registry)
+    - name: httpProxy
+      value: $(params.httpProxy)
+    - name: httpsProxy
+      value: $(params.httpsProxy)
+    - name: noProxy
+      value: $(params.noProxy)
 ...

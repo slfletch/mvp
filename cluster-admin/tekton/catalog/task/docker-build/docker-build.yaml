@@ -3,6 +3,7 @@ apiVersion: tekton.dev/v1beta1
 kind: ClusterTask
 metadata:
   name: docker-build
+  namespace: default
   labels:
     app.kubernetes.io/version: "0.1"
   annotations:
