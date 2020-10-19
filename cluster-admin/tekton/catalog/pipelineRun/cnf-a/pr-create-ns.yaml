@@ -18,11 +18,11 @@ spec:
         storageClassName: nfs-provisioner
   params:
   - name: repo-url
-    value: https://github.com/slfletch/mvp.git
+    value: <gerrit-url>
   - name: branch-name
-    value: master
+    value: <gerrit-branch-name>
   - name: set-namespace
-    value: cnf-b
+    value: <namespace>
   - name: httpProxy
     value: "http://pxyapp.proxy.att.com:8080/"
   - name: httpsProxy

@@ -1,67 +1,58 @@
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
-- [Tekton CI with tektoncd pipelines](#kubeflow-ci-with-tektoncd-pipelines)
-  - [RBAC](#rbac)
-  - [Use Cases](#use-cases)
-  - [Background information on TektonCD pipelineruns, pipelines and tasks](#background-information-on-tektoncd-pipelineruns-pipelines-and-tasks)
-  - [Parameterization](#parameterization)
-  - [Secrets](#secrets)
+**Table of Contents**
+- [Tekton CICD Administration Steps](#tekton-cicd-administration-steps)
+  - [How it works](#howitworks)
+    - [clusterTask](#clusterTask)
+    - [pipeline](#pipeline)
+    - [pipelineRun](#pipelineRun)
+  - [How to run it](#howtorunit)
+    - [Initial script](#initialscript)
+    - [How to onbaord a new xxx](#howtoonboardanewxxx)
+- [Useful Documentation](#useful-documentation)
+  - [Resources](#resources)
 
-## Tekton CI with tektoncd pipelines
-This directory contains Tekton pipelines intended to rebuild the admin managed Tekton tasks as well
-as any required RBAC for a PipelineRun.
+## Tekton CICD Administration Steps
+This repository holds administration steps to be taken prior to a Standardized Container Docker Image CICD workflow to be executed. This includes 
+  1. Creating a namespace for the tenant to run in CloudHarbor
+  2. Creating a secret to push images/helm chart into the Harbor registry
+  3. Creating a secret that holds the kubeconfig for the remote cluster
+
 ### How it works
-* pipelines/base/pipeline.yaml defines a reusable pipeline to:
-  1. Build a container image
-  1. Create a PR to update the Kubeflow manifests to use the newly built image
-* To launch a pipeline to build a specific application at a specific commit you create an instance of a pipeline run
-  that uses this pipeline
-  * runs/profile_controller_v1795828.yaml provides an example pipeline run to build and update the profile controller image
-  * [pipeline resources](https://github.com/tektoncd/pipeline/blob/master/docs/resources.md) and [pipeline parameters](https://github.com/tektoncd/pipeline/blob/master/docs/pipelines.md#parameters) to specify what application to build and the image to create
-    * [Git Resources](https://github.com/tektoncd/pipeline/blob/master/docs/resources.md#git-resource) are used to define
-      * The repo and commit containing the source code to build the image from
-      * The repo containing the manifests to update
-      * The repo and commit containing the tools used for CI/CD
-    * [Image Resource](https://github.com/tektoncd/pipeline/blob/master/docs/resources.md#image-resource) is used to define
-      the docker image to use
+The administrator will create clusterTasks that define reusable tasks that can be ran within a pipeline. These tasks are created within the default namespace and are accessible by all other namespaces.
 
-    * Parameters are used to define various values specific to each application such as the relative paths of the Docker file
-      in the source repository
+A generic tekton pipeline ./pipeline/p-run-kubectl-command.yaml will be created that uses the git-clone and generic-script clusterTasks. First the cluster-admin pipeline will be cloned and the generic-script task will run the script given via parameters. For example, the pr-create-ns.yaml pipelineRun object runs a command to create a namespace "kubectl create ns $(params.set-namespace)".
 
- * The kubeflow-bot GitHub account is used to create the PRs
-### Run a pipeline
-To update a specific application
-1. Connect to the Kubeflow releasing cluster
-   * **project**: **kf-releasing**
-   * **cluster**: **kf-releasing-0-6-2**
-   * **namespace**: **kf-releasing**
-1. Create a PipelineRun file
-   * You can use one of the runs in runs/ as a baseline
-   * Set the Tekton PipelineRun parameters and resources as needed to build your
-     application at the desired commit
+A pipelineRun object is created to create a new namespace, add any required RBAC, and create any required secrets for each xxx.
 
-1. Run it
+* clusterTask
+A clusterTask is reusable by any namespace and accessible across the cluster. The administrator will execute the pipelineRun object located at ./tekton/catalog/pipelineRun/pr-create-tasks.yaml to create any required tasks for xxx. Any updates required by xxx will need to be requested by the administrator and versioned to simplify support/troubleshooting.
 
-   ```
-   kubectl create -f ${PIPELINERUN_FILE}
-   ```
+* pipeline
+The pipeline found at ./tekton/catalog/pipeline/p-run-kubectl-command.yaml is a generic pipeline that accepts specific parameters to allow multiple pipelineRun objects to execute different script commands.
 
-### Setting up a cluster to run the pipelines
-The kustomize manifests are currently written so as to run in a Kubeflow releasing cluster.
-The current release cluster is
-* **project**: **kf-releasing**
-* **cluster**: **kf-releasing-0-6-2**
-* **namespace**: **kf-releasing**
-This is a Kubeflow cluster (v0.6.2) and we rely on that to configure certain things like the secrets and service accounts.
-1. Follow [Tektons' instructions](https://github.com/tektoncd/pipeline/blob/master/docs/auth.md#ssh-authentication-git) for
-   creating a secret containing ssh credentials for use with GitHub
-   * We are currently using the secret named **kubeflow-bot-github-ssh**
-1. Ensure the GCP service account used with Kaniko has storage admin permissions for the project
-   where the images are pushed.
-   * most likely **gcr.io/kubeflow-images-public**
-1. Create a secret named **github-token** containing a github token to be used by the hub CLI to create PRs.
-1. Create the Tekton resources
-   ```
-   kustomize build pipelines/base/ | kubectl apply -f -
-   ```
-## References
-1. [Design Doc](https://docs.google.com/document/d/1AwYVznJ0F5ZwVrClATff2wXUKE-OnygIlwY1NRTv-2I/edit#heading=h.9g4gb5dvlquq)
+* pipelineRun
+The pipelineRun objects found at ./tekton/catalog/pipelineRun execute the p-run-kubectl-command by passing different parameters to the generic script clusterTask. 
+  1. ./pr-create-tasks.yaml - Creates all clusterTasks required for xxx CICD workflows.
+  2. ./pr-create-ns.yaml - Creates a namespace by setting the set-namespace parameter
+  3. ./pr-create-rbac.yaml - Creates all required k8s RBAC objects for the given namespace 
+  4. ./pr-create-secrets.yaml - Creates secrets for Harbor credentials and remote cluster kubeconfig to deploy to.
+
+### How to Run it
+#### Initial script
+1. One time script to create required clusterTask and pipeline to be used for each xxx.
+   00-setup.sh
+
+#### Onboarding a new xxx
+1. Copy the ./tetkon/catalog/pipelineRun/template directory and name it whatever namespace you are creating.
+   Example: cnf-a directory
+2. Update parameters in each of your pr-*.yaml files.
+3. Submit a patchset and get reviews on the new namespace definition.
+4. TODO - setup Tekton trigger to run each pipelineRun object and check validation pr-validate-onboard-setup.yaml
+     
+### Useful Documentation
+#### Resources
+[pipeline resources](https://github.com/tektoncd/pipeline/blob/master/docs/resources.md)
+  * [Git Resources](https://github.com/tektoncd/pipeline/blob/master/docs/resources.md#git-resource) 
+  * [Image Resource](https://github.com/tektoncd/pipeline/blob/master/docs/resources.md#image-resource) is used to define
+    the docker image to use
+[pipeline parameters](https://github.com/tektoncd/pipeline/blob/master/docs/pipelines.md#parameters) to specify what application to build and the image to create
+
