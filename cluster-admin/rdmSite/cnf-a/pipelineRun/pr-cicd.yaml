@@ -15,7 +15,7 @@ spec:
     - name: demo-run-valid-user
       image: mtn52r08c001.mini.mtn52c.cci.att.com:30003/tenent0/scdi:1.1
       script: |
-        #!/bin/bash
+        #!/bin/bas
         /usr/local/bin/run.sh
     - name: demo-test-valid-user
       image: stacey-0.localdomain:30003/tcicd/demo:1.5

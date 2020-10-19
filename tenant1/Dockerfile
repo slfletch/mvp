@@ -2,11 +2,11 @@
 ARG FROM=ubuntu:20.04
 FROM ${FROM} as build
 
-ENV HTTPS_PROXY="${HTTP_PROXY}"
-ENV HTTPS_PROXY="${HTTPs_PROXY}"
+ENV HTTPS_PROXY=http://pxyapp.proxy.att.com:8080/
+ENV HTTP_PROXY=http://pxyapp.proxy.att.com:8080/
 ENV NO_PROXY="${NO_PROXY}"
-ENV http_proxy="${HTTP_PROXY}"
-ENV https_proxy="${HTTPS_PROXY}"
+ENV http_proxy=http://pxyapp.proxy.att.com:8080/
+ENV https_proxy=http://pxyapp.proxy.att.com:8080/
 ENV no_proxy="${NO_PROXY}"
 
 RUN set -ex ;\
