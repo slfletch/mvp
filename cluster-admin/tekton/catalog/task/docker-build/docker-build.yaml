@@ -46,6 +46,12 @@ spec:
   - name: noProxy
     description: No Proxy environment variable
     default: ""
+  - name: harbor-registry-creds
+    description: Credentials required to push artifacts to repository
+    default: harbor-registry-creds
+  - name: remote-cluster-kubeconfig
+    description: kubeconfig required to access remote cluster site
+    default: remote-cluster-kubeconfig
   workspaces:
   - name: source
   results:
@@ -95,7 +101,7 @@ spec:
         name: dind-certs
       - mountPath: /tekton/home/.docker/config.json
         subPath: .dockerconfigjson
-        name: image-push-creds
+        name: harbor-registry-creds
     # Wait for the dind
   sidecars:
   - image: docker:dind
@@ -129,7 +135,9 @@ spec:
   volumes:
   - name: dind-certs
     emptyDir: {}
-  - name: image-push-creds
+  - name: harbor-registry-creds
     secret:
-      secretName: image-push-creds
-...
+      secretName: $(params.harbor-registry-creds)
+  - name: remote-site-kubeconfig
+    secret:
+      secretName: $(params.remote-cluster-kubeconfig)

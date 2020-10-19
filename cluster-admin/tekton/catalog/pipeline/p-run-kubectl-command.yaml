@@ -2,29 +2,18 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: p-create-rbac
+  name: p-run-kubectl-command
 spec:
   description: |
     Add service account that will have access to k8s objects
   params:
   - name: repo-url
-    type: string
-    description: The git repository URL to clone from.
   - name: branch-name
-    type: string
-    description: The git branch to clone.
-  - name: rbac-namespace
-    type: string
-    description: The namespace to create rbac.
+  - name: set-namespace
   - name: httpProxy
-    type: string
-    default: "http://pxyapp.proxy.att.com:8080/"
   - name: httpsProxy
-    type: string
-    default: "http://pxyapp.proxy.att.com:8080/"
   - name: noProxy
-    default: "127.0.0.1,localhost,.att.com,10.96.0.0/12,.svc.cluster.local,32.68.220.18,.tekton-pipelines.svc,192.168.0.0/16"
-
+  - name: kubectlCommand
   workspaces:
   - name: shared-data
     description: |
@@ -48,21 +37,24 @@ spec:
       value: $(params.httpsProxy)
     - name: noProxy
       value: $(params.noProxy)
-  - name: create-rbac
+  - name: run-kubectl-command
     runAfter: ["fetch-repo"]  # Wait until the clone is done before reading the readme.
     workspaces:
     - name: source
       workspace: shared-data
     params:
-    - name: rbac-ns
-      value: $(params.rbac-namespace)
+    - name: set-namespace
+      value: $(params.set-namespace)
+    - name: kubectlCommand
+      value: $(params.kubectlCommand)
     taskSpec:
       workspaces:
       - name: source
       params:
-      - name: rbac-ns
+      - name: set-namespace
+      - name: kubectlCommand
       steps:
       - image: lachlanevenson/k8s-kubectl
         script: |
-          cat $(workspaces.source.path)/cluster-admin/rdmSite/$(params.rbac-ns)/rbac/rbac.yaml | kubectl apply -f -
+          $(params.kubectlCommand)
 ...

@@ -2,10 +2,10 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: pr-create-rbac
+  name: pr-create-namespace
 spec:
   pipelineRef:
-    name: p-create-rbac
+    name: p-run-kubectl-command
   workspaces:
   - name: shared-data
     volumeClaimTemplate:
@@ -21,12 +21,14 @@ spec:
     value: https://github.com/slfletch/mvp.git
   - name: branch-name
     value: master
-  - name: rbac-namespace
-    value: cnf-a
+  - name: set-namespace
+    value: cnf-b
   - name: httpProxy
     value: "http://pxyapp.proxy.att.com:8080/"
   - name: httpsProxy
     value: "http://pxyapp.proxy.att.com:8080/"
   - name: noProxy
     value: "127.0.0.1,localhost,.att.com,10.96.0.0/12,.svc.cluster.local,32.68.220.18,.tekton-pipelines.svc,192.168.0.0/16"
+  - name: kubectlCommand
+    value: "kubectl create ns $(params.set-namespace)"
 ...
