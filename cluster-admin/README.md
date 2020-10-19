@@ -24,13 +24,17 @@ A generic tekton pipeline ./pipeline/p-run-kubectl-command.yaml will be created 
 A pipelineRun object is created to create a new namespace, add any required RBAC, and create any required secrets for each xxx.
 
 * clusterTask
-A clusterTask is reusable by any namespace and accessible across the cluster. The administrator will execute the pipelineRun object located at ./tekton/catalog/pipelineRun/pr-create-tasks.yaml to create any required tasks for xxx. Any updates required by xxx will need to be requested by the administrator and versioned to simplify support/troubleshooting.
+
+A clusterTask is reusable by any namespace and accessible across the cluster. The administrator will execute the tekton pipelineRun object located at ./tekton/catalog/pipelineRun/pr-create-tasks.yaml to create any required tekton clusterTasks for xxx. *Note* Updates to any existing clusterTask will be done using a release and versioning workflow. A subset of these clusterTasks will be created during the initial 00-setup.sh script.
 
 * pipeline
-The pipeline found at ./tekton/catalog/pipeline/p-run-kubectl-command.yaml is a generic pipeline that accepts specific parameters to allow multiple pipelineRun objects to execute different script commands.
+
+The tekton pipeline located at ./tekton/catalog/pipeline/p-run-kubectl-command.yaml is a generic tekton pipeline that accepts specific parameters to allow multiple tekton pipelineRun objects to execute different script commands. This tekton pipeline is created during the intial 00-setup.sh script.
 
 * pipelineRun
-The pipelineRun objects found at ./tekton/catalog/pipelineRun execute the p-run-kubectl-command by passing different parameters to the generic script clusterTask. 
+
+The tekton pipelineRun objects located at ./tekton/catalog/pipelineRun execute the p-run-kubectl-command created during the initial 00-setup script by passing different parameters to the generic script clusterTask. 
+
   1. ./pr-create-tasks.yaml - Creates all clusterTasks required for xxx CICD workflows.
   2. ./pr-create-ns.yaml - Creates a namespace by setting the set-namespace parameter
   3. ./pr-create-rbac.yaml - Creates all required k8s RBAC objects for the given namespace 
@@ -39,9 +43,11 @@ The pipelineRun objects found at ./tekton/catalog/pipelineRun execute the p-run-
 ### How to Run it
 #### Initial script
 1. One time script to create required clusterTask and pipeline to be used for each xxx.
-   00-setup.sh
+
+   ./00-setup.sh
 
 #### Onboarding a new xxx
+
 1. Copy the ./tetkon/catalog/pipelineRun/template directory and name it whatever namespace you are creating.
    Example: cnf-a directory
 2. Update parameters in each of your pr-*.yaml files.
