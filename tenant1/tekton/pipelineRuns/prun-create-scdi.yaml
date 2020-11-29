@@ -30,5 +30,5 @@ spec:
   - name: dockerfile
     value: ./tenant1/Dockerfile
   - name: insecure_registry
-    value: "benld.localdomain:30003/nrf"
+    value: "benld.localdomain:30003"
 ...
