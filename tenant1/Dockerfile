@@ -1,13 +1,6 @@
 # Copyright 2019 AT&T Intellectual Property.  All other rights reserved.
-ARG FROM=ubuntu:20.04
+ARG FROM=ubuntu:18.04
 FROM ${FROM} as build
-
-ENV HTTPS_PROXY=http://pxyapp.proxy.att.com:8080/
-ENV HTTP_PROXY=http://pxyapp.proxy.att.com:8080/
-ENV NO_PROXY="${NO_PROXY}"
-ENV http_proxy=http://pxyapp.proxy.att.com:8080/
-ENV https_proxy=http://pxyapp.proxy.att.com:8080/
-ENV no_proxy="${NO_PROXY}"
 
 RUN set -ex ;\
     apt-get update -y ;\
@@ -26,4 +19,9 @@ RUN set -ex ;\
     helm init --client-only ;\
     helm plugin install https://github.com/chartmuseum/helm-push;
 
-COPY "tenant1/standardized_scripts/*.sh" "/usr/local/bin/"
+COPY "./standardized_scripts/00-init.sh" "/usr/local/bin/"
+COPY "./standardized_scripts/01-ci.sh" "/usr/local/bin/"
+COPY "./standardized_scripts/02-cd.sh" "/usr/local/bin/"
+COPY "./standardized_scripts/03-test.sh" "/usr/local/bin/"
+COPY "./standardized_scripts/04-publish.sh" "/usr/local/bin/"
+COPY "./standardized_scripts/05-cleanup.sh" "/usr/local/bin/"

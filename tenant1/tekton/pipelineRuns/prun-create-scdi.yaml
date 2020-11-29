@@ -20,15 +20,15 @@ spec:
   - name: deleteExisting
     value: "true"
   - name: httpProxy
-    value: "http://pxyapp.proxy.att.com:8080/"
+    value: ""
   - name: httpsProxy
-    value: "http://pxyapp.proxy.att.com:8080/"
+    value: ""
   - name: noProxy
-    value: "127.0.0.1,localhost,.att.com,10.96.0.0/12,.svc.cluster.local,32.68.220.18,.tekton-pipelines.svc,192.168.0.0/16"
+    value: ""
   - name: image
-    value: mtn52r08c001.mini.mtn52c.cci.att.com:30003/tenent0/scdi:1.1
+    value: benld.localdomain:30003/nrf/scdi:1.1
   - name: dockerfile
     value: ./tenant1/Dockerfile
   - name: insecure_registry
-    value: "mtn52r08c001.mini.mtn52c.cci.att.com:30003"
+    value: "benld.localdomain:30003/nrf"
 ...
