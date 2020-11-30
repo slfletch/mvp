@@ -18,4 +18,4 @@ labels:
 volume:
   class_name: nfs-provisioner
 EOF
-helm upgrade --wait --install --force demo-rabbitmq --ca-file ./temp-ca.crt --version 0.1.2 test/rabbitmq --values /tmp/values.yaml
+helm upgrade --wait --install --force demo-rabbitmq --ca-file /workspace/source/temp-ca.crt --version 0.1.2 test/rabbitmq --values /tmp/values.yaml
