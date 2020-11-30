@@ -8,7 +8,6 @@ RUN set -ex ;\
         ca-certificates \
         curl \
         gnupg \
-        wget \
         apt-transport-https \
         git ;\
     curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - ;\
@@ -16,9 +15,7 @@ RUN set -ex ;\
     apt-get update ;\
     apt-get install -y --no-install-recommends \
         kubectl ;\
-    wget https://github.com/helm/helm/archive/v2.16.10.tar.gz ;\
-    tar -zxvf helm-v2.16.10 linux-amd64.tar.gz ;\
-    mv linux-amd64/helm /usr/local/bin/helm ;\
+    curl -sSL https://github.com/helm/helm/archive/v2.16.10.tar.gz | bash ;\
     helm init --client-only ;\
     helm plugin install https://github.com/chartmuseum/helm-push;
 
