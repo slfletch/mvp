@@ -1,6 +1,6 @@
 #!/bin/bash
 #This can be done using Flux - flexibility of the pipeline, encapsulation in a script can be executed.
-kubectl get -n harbor secrets harbor-release-harbor-nginx -o 'go-template={{ index .data "ca.crt" | base64decode }}' > ./temp-ca.crt
+#kubectl get -n harbor secrets harbor-release-harbor-nginx -o 'go-template={{ index .data "ca.crt" | base64decode }}' > ./temp-ca.crt
 tee /tmp/values.yaml <<EOF
 labels:
   server:
@@ -18,4 +18,4 @@ labels:
 volume:
   class_name: nfs-provisioner
 EOF
-helm upgrade --wait --install --force demo-rabbitmq --ca-file ./temp-ca.crt --version 0.1.2 nrf/rabbitmq --values /tmp/values.yaml
+helm upgrade --wait --install --force demo-rabbitmq --ca-file ./temp-ca.crt --version 0.1.2 test/rabbitmq --values /tmp/values.yaml

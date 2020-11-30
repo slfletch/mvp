@@ -20,7 +20,7 @@ spec:
   - name: deleteExisting
     value: "true"
   - name: image
-    value: benld.localdomain:30003/nrf/scdi:1.6.4
+    value: benld.localdomain:30003/nrf/scdi:1.6.5
   - name: dockerfile
     value: ./tenant1/Dockerfile
   - name: insecure_registry
