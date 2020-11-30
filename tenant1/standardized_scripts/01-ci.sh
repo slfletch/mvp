@@ -12,7 +12,7 @@ cp -rav ./helm-toolkit ./rabbitmq/charts/
 helm package ./rabbitmq
 
 #Check if the overall product renders
-helm lint ./rabbitmq-0.1.0.tgz
+helm lint ./rabbitmq-0.1.2.tgz
 
 #Get certificate from Harbor helm repository - Hardcoded for time purposes, in a non-POC world this ca would be bind mounted into the container
 kubectl get -n harbor secrets harbor-harbor-harbor-nginx -o 'go-template={{ index .data "ca.crt" | base64decode }}' > ./temp-ca.crt

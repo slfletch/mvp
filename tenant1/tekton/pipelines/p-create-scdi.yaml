@@ -11,12 +11,10 @@ spec:
   - name: subdirectory
   - name: git-revision
   - name: deleteExisting
-  - name: httpProxy
-  - name: httpsProxy
-  - name: noProxy
   - name: image
   - name: dockerfile
   - name: insecure_registry
+  - name: context
   tasks:
   - name: fetch-repository
     taskRef:
@@ -34,12 +32,6 @@ spec:
       value: $(params.subdirectory)
     - name: deleteExisting
       value: $(params.deleteExisting)
-    - name: httpProxy
-      value: $(params.httpProxy)
-    - name: httpsProxy
-      value: $(params.httpsProxy)
-    - name: noProxy
-      value: $(params.noProxy)
   - name: docker-build
     taskRef:
       kind: ClusterTask
@@ -53,15 +45,11 @@ spec:
     - name: image
       value: $(params.image)
     - name: build_extra_args
-      value: "--build-arg HTTP_PROXY=$(params.httpProxy) --build-arg HTTPS_PROXY=$(params.httpsProxy) --build-arg NO_PROXY=$(params.noProxy)"
+      value: ""
     - name: dockerfile
       value: $(params.dockerfile)
     - name: insecure_registry
       value: $(params.insecure_registry)
-    - name: httpProxy
-      value: $(params.httpProxy)
-    - name: httpsProxy
-      value: $(params.httpsProxy)
-    - name: noProxy
-      value: $(params.noProxy)
+    - name: context
+      value: $(params.context)
 ...

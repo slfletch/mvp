@@ -19,16 +19,12 @@ spec:
     value: "master"
   - name: deleteExisting
     value: "true"
-  - name: httpProxy
-    value: ""
-  - name: httpsProxy
-    value: ""
-  - name: noProxy
-    value: ""
   - name: image
     value: benld.localdomain:30003/nrf/scdi:1.1
   - name: dockerfile
     value: ./tenant1/Dockerfile
   - name: insecure_registry
     value: "benld.localdomain:30003"
+  - name: context
+    value: ./tenant1
 ...
