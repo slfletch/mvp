@@ -53,4 +53,9 @@ spec:
     script: |
       /usr/local/bin/01-ci.sh
     workingDir: $(workspaces.source.path)
+  - name: deploy
+    image: $(params.image)
+    script: |
+      /usr/local/bin/02-cd.sh
+    workingDir: $(workspaces.source.path)
 ...
