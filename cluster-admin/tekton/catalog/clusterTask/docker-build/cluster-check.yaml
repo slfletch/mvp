@@ -1,0 +1,33 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: ClusterTask
+metadata:
+  name: cluster-check
+  namespace: default
+  labels:
+    app.kubernetes.io/version: "0.1"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.12.1"
+    tekton.dev/tags: k8s, cluster, validate
+    tekton.dev/displayName: cluster-check
+spec:
+  description: >-
+    This task will validate it can communicate the the kubernetes cluster.
+  params:
+  - name: image
+    description: Reference of the image docker will produce.
+  - name: kubeconfig
+    description: The location of the docker builder image.
+    default: /workspace/source/kubeconfig.yaml
+  workspaces:
+  - name: source
+  results:
+  - name: KUBECTL_VERSION
+    description: Version of k8s
+  steps:
+  - name: k8s-validate
+    image: $(params.image)
+    script: |
+      /usr/local/bin/00-k8s-validate.sh
+    workingDir: $(workspaces.source.path)
+...
