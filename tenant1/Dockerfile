@@ -15,7 +15,7 @@ RUN set -ex ;\
     apt-get update ;\
     apt-get install -y --no-install-recommends \
         kubectl ;\
-    curl -sSL https://github.com/helm/helm/archive/v2.16.10.tar.gz | bash ;\
+    curl -sSL https://git.io/get_helm.sh | bash ;\
     helm init --client-only ;\
     helm plugin install https://github.com/chartmuseum/helm-push;
 
