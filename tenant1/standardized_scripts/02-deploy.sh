@@ -1,6 +1,4 @@
 #!/bin/bash
-helm init --client-only
-
 #This can be done using Flux - flexibility of the pipeline, encapsulation in a script can be executed.
 kubectl get -n harbor secrets harbor-release-harbor-nginx -o 'go-template={{ index .data "ca.crt" | base64decode }}' > ./temp-ca.crt
 tee /tmp/values.yaml <<EOF

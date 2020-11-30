@@ -43,19 +43,34 @@ spec:
   - name: IMAGE_DIGEST
     description: Digest of the image just built.
   steps:
-  - name: initialize-helm
+  - name: initialize
     image: $(params.image)
     script: |
       /usr/local/bin/00-init.sh
     workingDir: $(workspaces.source.path)
-  - name: lint-package-chart
+  - name: quality-check
     image: $(params.image)
     script: |
-      /usr/local/bin/01-ci.sh
+      /usr/local/bin/01-quality-check.sh
     workingDir: $(workspaces.source.path)
   - name: deploy
     image: $(params.image)
     script: |
-      /usr/local/bin/02-cd.sh
+      /usr/local/bin/02-deploy.sh
+    workingDir: $(workspaces.source.path)
+  - name: test
+    image: $(params.image)
+    script: |
+      /usr/local/bin/03-test.sh
+    workingDir: $(workspaces.source.path)
+  - name: publish
+    image: $(params.image)
+    script: |
+      /usr/local/bin/04-publish.sh
+    workingDir: $(workspaces.source.path)
+  - name: clean
+    image: $(params.image)
+    script: |
+      /usr/local/bin/05-cleanup.sh
     workingDir: $(workspaces.source.path)
 ...
