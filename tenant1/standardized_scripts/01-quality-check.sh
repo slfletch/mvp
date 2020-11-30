@@ -14,4 +14,4 @@ helm package ./rabbitmq
 #Check if the overall product renders
 helm lint ./rabbitmq-0.1.2.tgz
 
-helm push --ca-file ./temp-ca.crt --username=admin --password=Harbor12345 rabbitmq-0.1.2.tgz test
+helm push --ca-file /workspace/source/temp-ca.crt --username=admin --password=Harbor12345 rabbitmq-0.1.2.tgz test
