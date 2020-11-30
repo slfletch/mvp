@@ -1,0 +1,15 @@
+labels:
+  server:
+    node_selector_key: harbor
+    node_selector_value: enabled
+  prometheus_rabbitmq_exporter:
+    node_selector_key: harbor
+    node_selector_value: enabled
+  test:
+    node_selector_key: harbor
+    node_selector_value: enabled
+  jobs:
+    node_selector_key: harbor
+    node_selector_value: enabled
+volume:
+  class_name: nfs-provisioner

@@ -1,4 +1,4 @@
 #!/bin/bash
 set -ex
-helm list
+helm delete --purge demo-rabbitmq
 #TODO helm delete --purge previous helm deployment
