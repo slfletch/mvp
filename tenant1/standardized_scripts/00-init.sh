@@ -4,3 +4,4 @@ set -ex
 helm init --client-only
 #Install required plugins
 helm plugin install https://github.com/chartmuseum/helm-push
+
