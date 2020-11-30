@@ -20,8 +20,8 @@ RUN set -ex ;\
     helm plugin install https://github.com/chartmuseum/helm-push;
 
 COPY "./standardized_scripts/00-init.sh" "/usr/local/bin/"
-COPY "./standardized_scripts/01-ci.sh" "/usr/local/bin/"
-COPY "./standardized_scripts/02-cd.sh" "/usr/local/bin/"
+COPY "./standardized_scripts/01-quality-check.sh" "/usr/local/bin/"
+COPY "./standardized_scripts/02-deploy.sh" "/usr/local/bin/"
 COPY "./standardized_scripts/03-test.sh" "/usr/local/bin/"
 COPY "./standardized_scripts/04-publish.sh" "/usr/local/bin/"
 COPY "./standardized_scripts/05-cleanup.sh" "/usr/local/bin/"
