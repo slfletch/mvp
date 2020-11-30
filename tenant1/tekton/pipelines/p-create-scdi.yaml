@@ -84,4 +84,22 @@ spec:
     params:
     - name: image
       value: $(params.image)
+  - name: image-upload-scan
+    taskRef:
+      kind: ClusterTask
+      name: image-upload-scan
+    workspaces:
+    - name: source
+      workspace: shared-workspace
+    params:
+    - name: image
+      value: $(params.image)
+    - name: build_extra_args
+      value: ""
+    - name: dockerfile
+      value: $(params.dockerfile)
+    - name: insecure_registry
+      value: $(params.insecure_registry)
+    - name: context
+      value: $(params.context)
 ...
