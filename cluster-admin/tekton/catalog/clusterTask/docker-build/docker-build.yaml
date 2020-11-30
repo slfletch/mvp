@@ -82,17 +82,6 @@ spec:
       - mountPath: /certs/client
         name: dind-certs
     # Wait for the dind
-  - name: initialize-helm
-    image: $(params.image)
-    script: |
-      /usr/local/bin/00-init.sh
-    workingDir: $(workspaces.source.path)
-  - name: lint-package-chart
-    image: $(params.image)
-    script: |
-      /usr/local/bin/01-ci.sh
-    workingDir: $(workspaces.source.path)
-    # Wait for the dind
   sidecars:
   - image: docker:dind
     name: server
