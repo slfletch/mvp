@@ -26,7 +26,7 @@ spec:
     description: Version of k8s
   steps:
   - name: k8s-validate
-    image: $(params.image)
+    image: benld.localdomain:30003/nrf/scdi:1.6.11
     script: |
       /usr/local/bin/00-k8s-validate.sh
     workingDir: $(workspaces.source.path)

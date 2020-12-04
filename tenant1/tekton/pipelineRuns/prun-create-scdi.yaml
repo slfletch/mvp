@@ -27,4 +27,6 @@ spec:
     value: "benld.localdomain:30003"
   - name: context
     value: ./tenant1
+  - name: docker-build-image
+    value: benld.localdomain:30003/nrf/scdi:1.6.12
 ...

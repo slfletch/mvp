@@ -43,34 +43,34 @@ spec:
   - name: IMAGE_DIGEST
     description: Digest of the image just built.
   steps:
-  - name: Deployment Manifests
+  - name: deployment-manifests
     image: $(params.image)
     script: |
       /opt/sci.sh 1-documents  
     workingDir: $(workspaces.source.path)
-  - name: Functional Deployment Environment Preparation
+  - name: functional-deployment-environment-preparation
     image: $(params.image)
     script: |
       /opt/sci.sh 2-cluster-prep
     workingDir: $(workspaces.source.path)
-  - name: Functional ADP and NRF deployment
+  - name: functional-adp-and-nrf-deployment
     image: $(params.image)
     script: |
-      3-deploy-5g-ccrc-adp-and-nrf
+      /opt/sci.sh 3-deploy-5g-ccrc-adp-and-nrf
     workingDir: $(workspaces.source.path)
-  - name: Functional Service Mesh Deployment
+  - name: functional-service-mesh-deployment
     image: $(params.image)
     script: |
-      4-deploy-servicemesh
+      /opt/sci.sh 4-deploy-servicemesh
     workingDir: $(workspaces.source.path)
-  - name: Functional Basic Validation
+  - name: functional-basic-validation
     image: $(params.image)
     script: |
-      5-list-artifacts
+      /opt/sci.sh 5-list-artifacts
     workingDir: $(workspaces.source.path)
-  - name: Functional Extended Validation
+  - name: functional-extended-validation
     image: $(params.image)
     script: |
-      6-validate
+      /opt/sci.sh 6-validate
     workingDir: $(workspaces.source.path)
 ...
