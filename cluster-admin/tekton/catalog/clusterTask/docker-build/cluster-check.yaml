@@ -2,14 +2,14 @@
 apiVersion: tekton.dev/v1beta1
 kind: ClusterTask
 metadata:
-  name: cluster-check
+  name: k8s-validate
   namespace: default
   labels:
     app.kubernetes.io/version: "0.1"
   annotations:
     tekton.dev/pipelines.minVersion: "0.12.1"
     tekton.dev/tags: k8s, cluster, validate
-    tekton.dev/displayName: cluster-check
+    tekton.dev/displayName: k8s-validate
 spec:
   description: >-
     This task will validate it can communicate the the kubernetes cluster.

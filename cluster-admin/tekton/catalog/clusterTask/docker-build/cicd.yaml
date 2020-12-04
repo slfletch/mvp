@@ -8,8 +8,8 @@ metadata:
     app.kubernetes.io/version: "0.1"
   annotations:
     tekton.dev/pipelines.minVersion: "0.12.1"
-    tekton.dev/tags: docker, build-image, push-image, dind
-    tekton.dev/displayName: docker-build
+    tekton.dev/tags: cicd
+    tekton.dev/displayName: cicd
 spec:
   description: >-
     This task will build and push an image using docker.
@@ -43,34 +43,34 @@ spec:
   - name: IMAGE_DIGEST
     description: Digest of the image just built.
   steps:
-  - name: initialize
+  - name: Deployment Manifests
     image: $(params.image)
     script: |
-      /usr/local/bin/00-init.sh
+      /opt/sci.sh 1-documents  
     workingDir: $(workspaces.source.path)
-  - name: quality-check
+  - name: Functional Deployment Environment Preparation
     image: $(params.image)
     script: |
-      /usr/local/bin/01-quality-check.sh
+      /opt/sci.sh 2-cluster-prep
     workingDir: $(workspaces.source.path)
-  - name: deploy
+  - name: Functional ADP and NRF deployment
     image: $(params.image)
     script: |
-      /usr/local/bin/02-deploy.sh
+      3-deploy-5g-ccrc-adp-and-nrf
     workingDir: $(workspaces.source.path)
-  - name: test
+  - name: Functional Service Mesh Deployment
     image: $(params.image)
     script: |
-      /usr/local/bin/03-test.sh
+      4-deploy-servicemesh
     workingDir: $(workspaces.source.path)
-  - name: publish
+  - name: Functional Basic Validation
     image: $(params.image)
     script: |
-      /usr/local/bin/04-publish.sh
+      5-list-artifacts
     workingDir: $(workspaces.source.path)
-  - name: clean
+  - name: Functional Extended Validation
     image: $(params.image)
     script: |
-      /usr/local/bin/05-cleanup.sh
+      6-validate
     workingDir: $(workspaces.source.path)
 ...
